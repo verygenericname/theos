@@ -135,7 +135,10 @@ get_sdks() {
 		update "SDKs appear to already be installed."
 	else
 		update "SDKs do not appear to be installed. Installing now..."
-		git clone https://github.com/theos/sdks $THEOS/sdks
+		TMP=$(mktemp -d)
+		git clone https://github.com/theos/sdks $TMP
+		mv $TMP/*.sdk $THEOS/sdks
+		rm -r $TMP
 
 		if [[ -d $THEOS/sdks/ && $(ls -A "$THEOS/sdks/" | grep sdk) ]]; then
 			update "SDKs successfully installed!"
